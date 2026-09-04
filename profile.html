@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create your profile — FounderMatch</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      Founder<span>Match</span>
+    </a>
+
+    <div class="form-progress">
+      Founder Profile · Beta
+    </div>
+  </nav>
+</header>
+
+<main class="profile-page">
+
+  <section class="profile-intro">
+
+    <div class="section-label">FOUNDER PROFILE</div>
+
+    <h1>Let's find the right person to build with.</h1>
+
+    <p>
+      Tell us about your skills, ambitions and what you're
+      looking for in a co-founder.
+    </p>
+
+    <div class="beta-note">
+      Takes about 3 minutes · Your profile will not be publicly displayed.
+    </div>
+
+  </section>
+
+
+  <form id="founderForm" class="founder-form">
+
+    <!-- 01 ABOUT YOU -->
+
+    <div class="form-section">
+
+      <div class="form-number">01</div>
+
+      <div class="form-content">
+
+        <h2>About you</h2>
+
+        <p class="form-description">
+          Let's start with the basics.
+        </p>
+
+        <label for="firstName">First name *</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          placeholder="Amaury"
+          required
+        >
+
+        <label for="email">Email *</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@email.com"
+          required
+        >
+
+        <label for="university">University / School *</label>
+        <input
+          type="text"
+          id="university"
+          name="university"
+          placeholder="e.g. SKEMA Business School"
+          required
+        >
+
+        <label for="country">City / Country *</label>
+        <input
+          type="text"
+          id="country"
+          name="country"
+          placeholder="e.g. Paris, France"
+          required
+        >
+
+        <label for="degree">Current degree / field of study *</label>
+        <input
+          type="text"
+          id="degree"
+          name="degree"
+          placeholder="e.g. BBA — Entrepreneurship"
+          required
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- 02 SKILLS -->
+
+    <div class="form-section">
+
+      <div class="form-number">02</div>
+
+      <div class="form-content">
+
+        <h2>Your skills</h2>
+
+        <p class="form-description">
+          What do you bring to a founding team?
+        </p>
+
+        <label for="profile">Your main profile *</label>
+
+        <select id="profile" name="profile" required>
+
+          <option value="">Select your profile</option>
+          <option>Business / Strategy</option>
+          <option>Finance</option>
+          <option>Software Engineering</option>
+          <option>Data / AI</option>
+          <option>Product</option>
+          <option>Design / UX</option>
+          <option>Marketing / Growth</option>
+          <option>Sales</option>
+          <option>Operations</option>
+          <option>Other</option>
+
+        </select>
+
+
+        <label for="skills">
+          Your strongest skills *
+        </label>
+
+        <textarea
+          id="skills"
+          name="skills"
+          rows="4"
+          placeholder="e.g. financial modelling, sales, Python, branding..."
+          required
+        ></textarea>
+
+      </div>
+
+    </div>
+
+
+    <!-- 03 STARTUP -->
+
+    <div class="form-section">
+
+      <div class="form-number">03</div>
+
+      <div class="form-content">
+
+        <h2>Your startup journey</h2>
+
+        <label for="stage">Where are you right now? *</label>
+
+        <select id="stage" name="stage" required>
+
+          <option value="">Select one</option>
+          <option>I want to join someone else's idea</option>
+          <option>I am exploring ideas</option>
+          <option>I already have an idea</option>
+          <option>I am validating an idea</option>
+          <option>I am building an MVP</option>
+          <option>I already launched</option>
+
+        </select>
+
+
+        <label for="idea">
+          Tell us about your idea or areas of interest
+        </label>
+
+        <textarea
+          id="idea"
+          name="idea"
+          rows="5"
+          placeholder="You don't need to reveal confidential information."
+        ></textarea>
+
+
+        <label for="industry">
+          Industries you're interested in *
+        </label>
+
+        <input
+          type="text"
+          id="industry"
+          name="industry"
+          placeholder="e.g. AI, fintech, mobility, consumer, climate..."
+          required
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- 04 COMMITMENT -->
+
+    <div class="form-section">
+
+      <div class="form-number">04</div>
+
+      <div class="form-content">
+
+        <h2>Commitment</h2>
+
+        <label for="availability">
+          How much time can you commit? *
+        </label>
+
+        <select id="availability" name="availability" required>
+
+          <option value="">Select one</option>
+          <option>Less than 3 hours / week</option>
+          <option>3–5 hours / week</option>
+          <option>5–10 hours / week</option>
+          <option>10–20 hours / week</option>
+          <option>20+ hours / week</option>
+
+        </select>
+
+
+        <label for="ambition">
+          What are you looking to build? *
+        </label>
+
+        <select id="ambition" name="ambition" required>
+
+          <option value="">Select one</option>
+          <option>A side project</option>
+          <option>A student project</option>
+          <option>A startup competition project</option>
+          <option>A serious startup</option>
+          <option>I don't know yet</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- 05 COFOUNDER -->
+
+    <div class="form-section">
+
+      <div class="form-number">05</div>
+
+      <div class="form-content">
+
+        <h2>Your ideal co-founder</h2>
+
+        <label for="lookingFor">
+          Which profile are you primarily looking for? *
+        </label>
+
+        <select id="lookingFor" name="lookingFor" required>
+
+          <option value="">Select one</option>
+          <option>Business / Strategy</option>
+          <option>Finance</option>
+          <option>Software Engineering</option>
+          <option>Data / AI</option>
+          <option>Product</option>
+          <option>Design / UX</option>
+          <option>Marketing / Growth</option>
+          <option>Sales</option>
+          <option>Operations</option>
+          <option>Open to different profiles</option>
+
+        </select>
+
+
+        <label for="priority">
+          What's most important to you? *
+        </label>
+
+        <select id="priority" name="priority" required>
+
+          <option value="">Select one</option>
+          <option>Complementary skills</option>
+          <option>Same level of ambition</option>
+          <option>Personality fit</option>
+          <option>Availability</option>
+          <option>Industry knowledge</option>
+
+        </select>
+
+
+        <label for="cofounderDescription">
+          Describe the person you'd like to build with *
+        </label>
+
+        <textarea
+          id="cofounderDescription"
+          name="cofounderDescription"
+          rows="5"
+          placeholder="What qualities, skills or mindset are you looking for?"
+          required
+        ></textarea>
+
+      </div>
+
+    </div>
+
+
+    <!-- 06 FINAL -->
+
+    <div class="form-section">
+
+      <div class="form-number">06</div>
+
+      <div class="form-content">
+
+        <h2>One last thing.</h2>
+
+        <label for="about">
+          Describe yourself in a few sentences *
+        </label>
+
+        <textarea
+          id="about"
+          name="about"
+          rows="5"
+          maxlength="500"
+          placeholder="Tell a potential co-founder who you are and what drives you."
+          required
+        ></textarea>
+
+
+        <label class="consent">
+
+          <input
+            type="checkbox"
+            id="consent"
+            name="consent"
+            required
+          >
+
+          <span>
+            I agree that FounderMatch can use this information
+            to identify potential co-founder matches.
+          </span>
+
+        </label>
+
+
+        <button type="submit" class="submit-button">
+          Create my founder profile →
+        </button>
+
+        <p class="form-privacy">
+          FounderMatch Beta · Your information will not be publicly displayed.
+        </p>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-logo">
+    Founder<span>Match</span>
+  </div>
+
+  <p>
+    An independent student entrepreneurship experiment.
+  </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
