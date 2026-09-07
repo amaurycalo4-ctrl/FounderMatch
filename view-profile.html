@@ -41,6 +41,105 @@
 </footer>
 
 <script>
+  const API_URL =
+  "https://foundermatch-api.amaurycalo4.workers.dev";
+
+const params = new URLSearchParams(window.location.search);
+const profileId = params.get("profile_id");
+
+const container = document.getElementById("profileContainer");
+
+async function loadProfile() {
+  if (!profileId) {
+    container.innerHTML = "<p>No profile selected.</p>";
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${API_URL}/api/profile?id=${profileId}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error("Unable to load profile.");
+    }
+
+    const profile = data.profile;
+
+    container.innerHTML = `
+      <article class="public-profile-card">
+
+        <div class="match-avatar-placeholder">
+          ${profile.first_name.charAt(0).toUpperCase()}
+        </div>
+
+        <h1>${profile.first_name}</h1>
+
+        <p><strong>${profile.main_profile}</strong></p>
+
+        <p>
+          ${profile.university} · ${profile.city_country}
+        </p>
+
+        <p>${profile.degree}</p>
+
+        <div class="match-details">
+
+          <p><strong>Skills</strong></p>
+
+          <div>
+            ${profile.strongest_skills
+              .split(",")
+              .map(skill =>
+                `<span class="match-tag">${skill.trim()}</span>`
+              )
+              .join("")}
+          </div>
+
+          <p>
+            <strong>Startup stage:</strong>
+            ${profile.startup_stage}
+          </p>
+
+          <p>
+            <strong>Interested in:</strong>
+            ${profile.industries}
+          </p>
+
+          <p>
+            <strong>Commitment:</strong>
+            ${profile.commitment}
+          </p>
+
+          <p>
+            <strong>Looking to build:</strong>
+            ${profile.build_type}
+          </p>
+
+          <p><strong>What I'm interested in building</strong></p>
+          <p>
+            ${profile.idea_interests || "Not specified yet."}
+          </p>
+
+          <p><strong>Ideal co-founder</strong></p>
+          <p>${profile.ideal_cofounder}</p>
+
+        </div>
+
+      </article>
+    `;
+
+  } catch (error) {
+    console.error(error);
+
+    container.innerHTML =
+      "<p>Something went wrong while loading this profile.</p>";
+  }
+}
+
+loadProfile();
 </script>
 
 </body>
