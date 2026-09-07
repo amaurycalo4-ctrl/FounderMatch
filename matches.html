@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Matches — FounderMatch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      Founder<span>Match</span>
+    </a>
+
+    <div class="form-progress">
+      Your Matches · Beta
+    </div>
+  </nav>
+</header>
+
+<main class="matches-page">
+
+  <section class="matches-intro">
+    <div class="section-label">YOUR MATCHES</div>
+
+    <h1>People you could build with.</h1>
+
+    <p>
+      FounderMatch compares your profile with other student founders
+      and highlights the most complementary matches.
+    </p>
+  </section>
+
+  <section id="matchesContainer">
+    <p>Finding your best matches...</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-logo">
+    Founder<span>Match</span>
+  </div>
+
+  <p>An independent student entrepreneurship experiment.</p>
+</footer>
+
+<script>
+  const API_URL =
+    "https://foundermatch-api.amaurycalo4.workers.dev";
+
+  const params = new URLSearchParams(window.location.search);
+  const profileId = params.get("profile_id");
+
+  const container = document.getElementById("matchesContainer");
+
+  async function loadMatches() {
+    if (!profileId) {
+      container.innerHTML = "<p>No profile selected.</p>";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/api/matches?profile_id=${profileId}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error("Unable to load matches.");
+      }
+
+      if (!data.matches.length) {
+        container.innerHTML =
+          "<p>No matches yet. More founders are joining soon.</p>";
+        return;
+      }
+
+      container.innerHTML = "";
+
+      data.matches.forEach((match) => {
+        const card = document.createElement("article");
+        card.className = "match-card";
+
+        card.innerHTML = `
+          <div class="match-score">
+            ${match.match_score}% match
+          </div>
+
+          <h2>${match.first_name}</h2>
+
+          <p>
+            <strong>${match.main_profile}</strong>
+          </p>
+
+          <p>
+            ${match.university} · ${match.city_country}
+          </p>
+
+          <p>
+            ${match.degree}
+          </p>
+
+          <div class="match-details">
+            <p><strong>Skills:</strong> ${match.strongest_skills}</p>
+            <p><strong>Interested in:</strong> ${match.industries}</p>
+            <p><strong>Commitment:</strong> ${match.commitment}</p>
+            <p><strong>Looking to build:</strong> ${match.build_type}</p>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+    } catch (error) {
+      console.error(error);
+
+      container.innerHTML =
+        "<p>Something went wrong while loading your matches.</p>";
+    }
+  }
+
+  loadMatches();
+</script>
+
+</body>
+</html>
