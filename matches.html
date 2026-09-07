@@ -85,34 +85,59 @@
       data.matches.forEach((match) => {
         const card = document.createElement("article");
         card.className = "match-card";
+const initial = match.first_name
+  ? match.first_name.charAt(0).toUpperCase()
+  : "?";
 
-        card.innerHTML = `
-          <div class="match-score">
-            ${match.match_score}% match
-          </div>
+card.innerHTML = `
+  <div class="match-score">
+    ${match.match_score}% match
+  </div>
 
-          <h2>${match.first_name}</h2>
+  <div class="match-avatar-placeholder">
+    ${initial}
+  </div>
 
-          <p>
-            <strong>${match.main_profile}</strong>
-          </p>
+  <h2>${match.first_name}</h2>
 
-          <p>
-            ${match.university} · ${match.city_country}
-          </p>
+  <p>
+    <strong>${match.main_profile}</strong>
+  </p>
 
-          <p>
-            ${match.degree}
-          </p>
+  <p>
+    ${match.university} · ${match.city_country}
+  </p>
 
-          <div class="match-details">
-            <p><strong>Skills:</strong> ${match.strongest_skills}</p>
-            <p><strong>Interested in:</strong> ${match.industries}</p>
-            <p><strong>Commitment:</strong> ${match.commitment}</p>
-            <p><strong>Looking to build:</strong> ${match.build_type}</p>
-          </div>
-        `;
+  <p>
+    ${match.degree}
+  </p>
 
+  <div class="match-details">
+    <p><strong>Skills</strong></p>
+
+    <div>
+      ${match.strongest_skills
+        .split(",")
+        .map(skill => `<span class="match-tag">${skill.trim()}</span>`)
+        .join("")}
+    </div>
+
+    <p><strong>Interested in:</strong> ${match.industries}</p>
+    <p><strong>Commitment:</strong> ${match.commitment}</p>
+    <p><strong>Looking to build:</strong> ${match.build_type}</p>
+  </div>
+
+  <div class="match-actions">
+    <a href="#" class="match-button match-button-secondary">
+      View profile
+    </a>
+
+    <a href="#" class="match-button match-button-primary">
+      Connect →
+    </a>
+  </div>
+`;
+        
         container.appendChild(card);
       });
 
