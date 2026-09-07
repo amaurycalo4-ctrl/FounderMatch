@@ -895,4 +895,94 @@ footer p {
     padding: 24px;
   }
 }
- 
+ /* ================================
+   PUBLIC FOUNDER PROFILE
+   ================================ */
+
+.public-profile-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 70px 32px 100px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 32px;
+  color: #667085;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  color: #6c5cff;
+}
+
+.public-profile-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e8e8ef;
+  border-radius: 24px;
+  padding: 42px;
+  box-shadow: 0 12px 40px rgba(17, 24, 39, 0.08);
+}
+
+.public-profile-card .match-avatar-placeholder {
+  width: 88px;
+  height: 88px;
+  font-size: 32px;
+  margin-bottom: 24px;
+}
+
+.public-profile-card h1 {
+  margin: 0 0 8px;
+  font-size: 42px;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: #111827;
+}
+
+.public-profile-card > p {
+  margin: 7px 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #667085;
+}
+
+.public-profile-card > p strong {
+  color: #20202a;
+  font-size: 19px;
+}
+
+.public-profile-card .match-details {
+  margin-top: 30px;
+  padding-top: 28px;
+}
+
+.public-profile-card .match-details p {
+  font-size: 16px;
+  line-height: 1.65;
+  margin: 14px 0;
+}
+
+.public-profile-card .match-details > p:nth-of-type(1),
+.public-profile-card .match-details > p:nth-of-type(6),
+.public-profile-card .match-details > p:nth-of-type(8) {
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .public-profile-page {
+    padding: 45px 20px 70px;
+  }
+
+  .public-profile-card {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+
+  .public-profile-card h1 {
+    font-size: 34px;
+  }
+}
