@@ -680,6 +680,219 @@ footer p {
   }
 
   .form-number {
+
+     /* ========================================
+   FOUNDERMATCH — MATCHES PAGE
+======================================== */
+
+.matches-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 80px 32px 100px;
+}
+
+.matches-intro {
+  max-width: 720px;
+  margin-bottom: 50px;
+}
+
+.matches-intro .section-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6c5cff;
+  margin-bottom: 18px;
+}
+
+.matches-intro h1 {
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin: 0 0 20px;
+  color: #111827;
+}
+
+.matches-intro p {
+  max-width: 650px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #667085;
+}
+
+/* GRID */
+
+#matchesContainer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+/* PROFILE CARD */
+
+.match-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e8e8ef;
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(17, 24, 39, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.match-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 45px rgba(17, 24, 39, 0.12);
+}
+
+/* MATCH SCORE */
+
+.match-score {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: #f0edff;
+  color: #5b4cff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* FUTURE PROFILE PHOTO */
+
+.match-avatar {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #f0edff;
+  margin-bottom: 20px;
+}
+
+.match-avatar-placeholder {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #171725, #6c5cff);
+  color: white;
+  font-size: 27px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* NAME */
+
+.match-card h2 {
+  font-size: 27px;
+  letter-spacing: -0.7px;
+  margin: 0 0 7px;
+  color: #111827;
+}
+
+.match-card > p {
+  margin: 6px 0;
+  color: #667085;
+  line-height: 1.5;
+}
+
+.match-card > p strong {
+  color: #20202a;
+}
+
+/* DETAILS */
+
+.match-details {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid #eeeeF3;
+}
+
+.match-details p {
+  margin: 10px 0;
+  color: #555b6a;
+  line-height: 1.5;
+}
+
+.match-details strong {
+  color: #20202a;
+}
+
+/* TAGS — ready for skills later */
+
+.match-tag {
+  display: inline-block;
+  background: #f6f5ff;
+  color: #5b4cff;
+  border: 1px solid #e6e2ff;
+  padding: 7px 11px;
+  margin: 4px 5px 4px 0;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* FUTURE ACTION BUTTONS */
+
+.match-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.match-button {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.match-button-primary {
+  background: #111827;
+  color: white;
+}
+
+.match-button-primary:hover {
+  background: #6c5cff;
+}
+
+.match-button-secondary {
+  background: #f7f7fa;
+  color: #111827;
+  border: 1px solid #e4e4ea;
+}
+
+.match-button-secondary:hover {
+  background: #eeeeF5;
+}
+
+/* MOBILE */
+
+@media (max-width: 760px) {
+  .matches-page {
+    padding: 55px 20px 70px;
+  }
+
+  #matchesContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .matches-intro h1 {
+    font-size: 42px;
+  }
+
+  .match-card {
+    padding: 24px;
+  }
+}
     padding: 0;
   }
 
