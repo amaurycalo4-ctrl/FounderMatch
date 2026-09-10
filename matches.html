@@ -157,7 +157,47 @@ card.innerHTML = `
         "<p>Something went wrong while loading your matches.</p>";
     }
   }
+async function sendConnection(receiverProfileId, button) {
+  try {
+    button.disabled = true;
+    button.textContent = "Sending...";
 
+    const response = await fetch(`${API_URL}/api/connect`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        sender_profile_id: Number(profileId),
+        receiver_profile_id: Number(receiverProfileId)
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      button.textContent = "Request sent ✓";
+    } else if (data.error && data.error.includes("UNIQUE")) {
+      button.textContent = "Already sent ✓";
+    } else {
+      button.textContent = "Try again";
+      button.disabled = false;
+    }
+  } catch (error) {
+    console.error(error);
+    button.textContent = "Try again";
+    button.disabled = false;
+  }
+}
+
+document.addEventListener("click", function (event) {
+  const button = event.target.closest(".connect-button");
+
+  if (!button) return;
+
+  const receiverProfileId = button.dataset.profileId;
+  sendConnection(receiverProfileId, button);
+});
   loadMatches();
 </script>
 
