@@ -94,9 +94,16 @@ card.innerHTML = `
     ${match.match_score}% match
   </div>
 
-  <div class="match-avatar-placeholder">
-    ${initial}
-  </div>
+  ${match.photo_url
+  ? `<img
+       src="${match.photo_url}"
+       alt="${match.first_name}"
+       class="match-avatar"
+     >`
+  : `<div class="match-avatar-placeholder">
+       ${initial}
+     </div>`
+}
 
   <h2>${match.first_name}</h2>
 
