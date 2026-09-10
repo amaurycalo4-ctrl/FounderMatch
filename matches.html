@@ -139,9 +139,11 @@ card.innerHTML = `
   View profile
 </a>
 
-    <a href="#" class="match-button match-button-primary">
-      Connect →
-    </a>
+   <button
+  class="match-button match-button-primary connect-button"
+  data-profile-id="${match.id}">
+  Connect →
+</button>
   </div>
 `;
         
