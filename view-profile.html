@@ -71,9 +71,16 @@ async function loadProfile() {
     container.innerHTML = `
       <article class="public-profile-card">
 
-        <div class="match-avatar-placeholder">
-          ${profile.first_name.charAt(0).toUpperCase()}
-        </div>
+        ${profile.photo_url
+  ? `<img
+       src="${profile.photo_url}"
+       alt="${profile.first_name}"
+       class="match-avatar profile-photo"
+     >`
+  : `<div class="match-avatar-placeholder">
+       ${profile.first_name.charAt(0).toUpperCase()}
+     </div>`
+}
 
         <h1>${profile.first_name}</h1>
 
