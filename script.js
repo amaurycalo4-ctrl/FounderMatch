@@ -22,6 +22,7 @@ form.addEventListener("submit", async (event) => {
 
    if (response.ok && result.success) {
   alert("Your FounderMatch profile has been created successfully!");
+  localStorage.setItem("foundermatch_profile_id", result.id);
   window.location.href = `matches.html?profile_id=${result.id}`;
   } else {
       alert("Something went wrong. Please try again.");
