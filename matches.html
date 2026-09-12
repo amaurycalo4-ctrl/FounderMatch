@@ -59,7 +59,8 @@
     "https://foundermatch-api.amaurycalo4.workers.dev";
 
   const params = new URLSearchParams(window.location.search);
-  const profileId = params.get("profile_id");
+ const savedProfileId = localStorage.getItem("foundermatch_profile_id");
+const profileId = savedProfileId || params.get("profile_id");
 const myMatchesLink = document.getElementById("myMatchesLink");
 const myProfileLink = document.getElementById("myProfileLink");
 
