@@ -15,9 +15,15 @@
       Founder<span>Match</span>
     </a>
 
-    <div class="form-progress">
-      Your Matches · Beta
-    </div>
+   <div class="form-progress">
+  <a href="#" id="myMatchesLink">My Matches</a>
+  ·
+  <a href="#" id="myProfileLink">My Profile</a>
+  ·
+  <span>Requests</span>
+  ·
+  <span>Connections</span>
+</div>
   </nav>
 </header>
 
@@ -54,7 +60,13 @@
 
   const params = new URLSearchParams(window.location.search);
   const profileId = params.get("profile_id");
+const myMatchesLink = document.getElementById("myMatchesLink");
+const myProfileLink = document.getElementById("myProfileLink");
 
+if (profileId) {
+  myMatchesLink.href = `matches.html?profile_id=${profileId}`;
+  myProfileLink.href = `view-profile.html?profile_id=${profileId}`;
+}
   const container = document.getElementById("matchesContainer");
 
   async function loadMatches() {
