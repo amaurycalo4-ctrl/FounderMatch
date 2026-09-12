@@ -20,9 +20,10 @@ form.addEventListener("submit", async (event) => {
 
     const result = await response.json();
 
-    if (response.ok && result.success) {
-      alert("Your FounderMatch profile has been created successfully!");
-      form.reset();
+   if (response.ok && result.success) {
+  alert("Your FounderMatch profile has been created successfully!");
+  window.location.href = `matches.html?profile_id=${result.id}`;
+}
     } else {
       alert("Something went wrong. Please try again.");
     }
