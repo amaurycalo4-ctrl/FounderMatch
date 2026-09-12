@@ -54,7 +54,7 @@
 
       <div class="hero-buttons">
 
-        <a href="profile.html" class="primary-button">
+        <a href="profile.html" class="primary-button" id="mainCta">
   Find my co-founder →
 </a>
 
@@ -200,7 +200,15 @@
 
   </footer>
 
+<script>
+  const savedProfileId = localStorage.getItem("foundermatch_profile_id");
+  const mainCta = document.getElementById("mainCta");
 
+  if (savedProfileId && mainCta) {
+    mainCta.href = `matches.html?profile_id=${savedProfileId}`;
+    mainCta.textContent = "View my matches →";
+  }
+</script>
   <script src="script.js"></script>
 
 </body>
