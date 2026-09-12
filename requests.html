@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Connection Requests – FounderMatch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+
+    <a href="index.html" class="logo">
+      Founder<span>Match</span>
+    </a>
+
+    <div class="form-progress">
+      <a href="#" id="myMatchesLink">My Matches</a>
+      ·
+      <a href="#" id="myProfileLink">My Profile</a>
+      ·
+      <span>Requests</span>
+      ·
+      <span>Connections</span>
+    </div>
+
+  </nav>
+</header>
+
+
+<main class="matches-page">
+
+  <section class="matches-intro">
+
+    <div class="section-label">CONNECTION REQUESTS</div>
+
+    <h1>People who want to connect.</h1>
+
+    <p>
+      Review students interested in building something with you.
+    </p>
+
+  </section>
+
+
+  <section id="requestsContainer">
+    <p>Loading your requests...</p>
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-logo">
+    Founder<span>Match</span>
+  </div>
+
+  <p>An independent student entrepreneurship experiment.</p>
+
+</footer>
+
+
+<script>
+
+const API_URL =
+  "https://foundermatch-api.amaurycalo4.workers.dev";
+
+const savedProfileId =
+  localStorage.getItem("foundermatch_profile_id");
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const profileId =
+  savedProfileId || params.get("profile_id");
+
+const container =
+  document.getElementById("requestsContainer");
+
+const myMatchesLink =
+  document.getElementById("myMatchesLink");
+
+const myProfileLink =
+  document.getElementById("myProfileLink");
+
+
+if (profileId) {
+
+  myMatchesLink.href =
+    `matches.html?profile_id=${profileId}`;
+
+  myProfileLink.href =
+    `view-profile.html?profile_id=${profileId}`;
+
+}
+
+
+async function loadRequests() {
+
+  if (!profileId) {
+
+    container.innerHTML =
+      "<p>No profile selected.</p>";
+
+    return;
+  }
+
+
+  try {
+
+    const response = await fetch(
+      `${API_URL}/api/requests?profile_id=${profileId}`
+    );
+
+    const data = await response.json();
+
+
+    if (!data.success) {
+
+      container.innerHTML =
+        "<p>Unable to load your requests.</p>";
+
+      return;
+    }
+
+
+    if (!data.requests || data.requests.length === 0) {
+
+      container.innerHTML =
+        "<p>You don't have any connection requests yet.</p>";
+
+      return;
+    }
+
+
+    container.innerHTML =
+      '<div class="matches-grid"></div>';
+
+    const grid =
+      container.querySelector(".matches-grid");
+
+
+    data.requests.forEach(request => {
+
+      const card =
+        document.createElement("article");
+
+      card.className = "match-card";
+
+
+      const initial =
+        request.first_name
+          ? request.first_name.charAt(0).toUpperCase()
+          : "?";
+
+
+      const avatar = request.photo_url
+
+        ? `<img
+             src="${request.photo_url}"
+             alt="${request.first_name}"
+             class="match-avatar"
+           >`
+
+        : `<div class="match-avatar">
+             ${initial}
+           </div>`;
+
+
+      card.innerHTML = `
+
+        <div class="match-card-top">
+
+          ${avatar}
+
+          <div class="match-score">
+            Wants to connect
+          </div>
+
+        </div>
+
+
+        <h2>${request.first_name}</h2>
+
+        <h3>${request.main_profile}</h3>
+
+        <p class="match-meta">
+          ${request.university} · ${request.city_country}
+        </p>
+
+        <p class="match-meta">
+          ${request.degree}
+        </p>
+
+
+        <hr>
+
+
+        <div class="match-details">
+
+          <strong>Skills</strong>
+
+          <p>
+            ${request.strongest_skills || "Not specified"}
+          </p>
+
+        </div>
+
+
+        <div class="match-actions">
+
+          <a
+            href="view-profile.html?profile_id=${request.sender_profile_id}"
+            class="match-button match-button-secondary">
+            View profile
+          </a>
+
+          <button
+            class="match-button match-button-secondary">
+            Decline
+          </button>
+
+          <button
+            class="match-button match-button-primary">
+            Accept ✓
+          </button>
+
+        </div>
+
+      `;
+
+
+      grid.appendChild(card);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      "<p>Unable to load your requests.</p>";
+
+  }
+
+}
+
+
+loadRequests();
+
+</script>
+
+</body>
+</html>
