@@ -76,7 +76,7 @@ const params =
   new URLSearchParams(window.location.search);
 
 const profileId =
-  savedProfileId || params.get("profile_id");
+  params.get("profile_id") || savedProfileId;
 
 const container =
   document.getElementById("requestsContainer");
