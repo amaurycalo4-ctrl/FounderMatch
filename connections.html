@@ -82,7 +82,7 @@ const savedProfileId =
   localStorage.getItem("foundermatch_profile_id");
 
 const profileId =
-  savedProfileId || params.get("profile_id");
+  params.get("profile_id") || savedProfileId;
 
 const myMatchesLink =
   document.getElementById("myMatchesLink");
