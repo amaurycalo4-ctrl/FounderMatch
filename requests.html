@@ -219,15 +219,19 @@ async function loadRequests() {
             View profile
           </a>
 
-          <button
-            class="match-button match-button-secondary">
-            Decline
-          </button>
+         <button
+  class="match-button match-button-secondary request-action-button"
+  data-connection-id="${request.connection_id}"
+  data-action="declined">
+  Decline
+</button>
 
-          <button
-            class="match-button match-button-primary">
-            Accept ✓
-          </button>
+<button
+  class="match-button match-button-primary request-action-button"
+  data-connection-id="${request.connection_id}"
+  data-action="accepted">
+  Accept ✓
+</button>
 
         </div>
 
@@ -249,7 +253,50 @@ async function loadRequests() {
   }
 
 }
+async function handleRequestAction(connectionId, action, button) {
+  try {
+    button.disabled = true;
+    button.textContent =
+      action === "accepted" ? "Accepting..." : "Declining...";
 
+    const response = await fetch(`${API_URL}/api/connection-response`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        connection_id: Number(connectionId),
+        action: action
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      await loadRequests();
+    } else {
+      alert(data.error || "Something went wrong.");
+      button.disabled = false;
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert("Unable to process this request.");
+    button.disabled = false;
+  }
+}
+
+
+document.addEventListener("click", function(event) {
+  const button = event.target.closest(".request-action-button");
+
+  if (!button) return;
+
+  const connectionId = button.dataset.connectionId;
+  const action = button.dataset.action;
+
+  handleRequestAction(connectionId, action, button);
+});
 
 loadRequests();
 
