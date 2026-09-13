@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Connections – FounderMatch</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+
+    <a href="index.html" class="logo">
+      Founder<span>Match</span>
+    </a>
+
+    <div class="form-progress">
+      <a href="#" id="myMatchesLink">My Matches</a>
+      ·
+      <a href="#" id="myProfileLink">My Profile</a>
+      ·
+      <a href="requests.html">Requests</a>
+      ·
+      <a href="connections.html">Connections</a>
+    </div>
+
+  </nav>
+</header>
+
+
+<main class="matches-page">
+
+  <section class="matches-intro">
+
+    <div class="section-label">
+      YOUR CONNECTIONS
+    </div>
+
+    <h1>People you've connected with.</h1>
+
+    <p>
+      These students have accepted a connection with you.
+    </p>
+
+  </section>
+
+
+  <section id="connectionsContainer">
+
+    <p>Loading your connections...</p>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-logo">
+    Founder<span>Match</span>
+  </div>
+
+  <p>
+    An independent student entrepreneurship experiment.
+  </p>
+
+</footer>
+
+
+<script>
+
+const API_URL =
+  "https://foundermatch-api.amaurycalo4.workers.dev";
+
+const params = new URLSearchParams(window.location.search);
+
+const savedProfileId =
+  localStorage.getItem("foundermatch_profile_id");
+
+const profileId =
+  savedProfileId || params.get("profile_id");
+
+const myMatchesLink =
+  document.getElementById("myMatchesLink");
+
+const myProfileLink =
+  document.getElementById("myProfileLink");
+
+const container =
+  document.getElementById("connectionsContainer");
+
+
+if (profileId) {
+  myMatchesLink.href =
+    `matches.html?profile_id=${profileId}`;
+
+  myProfileLink.href =
+    `view-profile.html?profile_id=${profileId}`;
+}
+
+
+async function loadConnections() {
+
+  if (!profileId) {
+    container.innerHTML =
+      "<p>No profile selected.</p>";
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      `${API_URL}/api/connections?profile_id=${profileId}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(
+        data.error || "Unable to load connections."
+      );
+    }
+
+    if (!data.connections.length) {
+      container.innerHTML =
+        "<p>You don't have any connections yet.</p>";
+      return;
+    }
+
+    container.innerHTML =
+      data.connections.map(connection => {
+
+        const initial =
+          connection.first_name
+            ? connection.first_name.charAt(0).toUpperCase()
+            : "?";
+
+        const avatar = connection.photo_url
+          ? `<img src="${connection.photo_url}" alt="${connection.first_name}" class="match-avatar-image">`
+          : `<div class="match-avatar">${initial}</div>`;
+
+        return `
+          <div class="match-card">
+
+            <div class="match-card-top">
+
+              ${avatar}
+
+              <div class="match-score">
+                Connected ✓
+              </div>
+
+            </div>
+
+            <h2>${connection.first_name}</h2>
+
+            <h3>${connection.main_profile}</h3>
+
+            <p>
+              ${connection.university} ·
+              ${connection.city_country}
+            </p>
+
+            <p>${connection.degree}</p>
+
+            <hr>
+
+            <h3>Skills</h3>
+
+            <p>
+              ${connection.strongest_skills}
+            </p>
+
+            <a
+              href="view-profile.html?profile_id=${connection.profile_id}"
+              class="match-button match-button-primary">
+              View profile
+            </a>
+
+          </div>
+        `;
+      }).join("");
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      "<p>Unable to load your connections. Please try again.</p>";
+  }
+}
+
+
+loadConnections();
+
+</script>
+
+</body>
+</html>
