@@ -770,6 +770,10 @@ footer p {
   border-radius: 50%;
   object-fit: cover;
   background: #f0edff;
+   display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
   margin-bottom: 20px;
 }
 
