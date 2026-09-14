@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Opportunity — FounderMatch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      Founder<span>Match</span>
+    </a>
+
+    <div>
+      <a href="matches.html">My Matches</a> ·
+      <a href="opportunities.html">Opportunities</a> ·
+      <a href="profile.html">My Profile</a> ·
+      <a href="requests.html">Requests</a> ·
+      <a href="connections.html">Connections</a>
+    </div>
+  </nav>
+</header>
+
+
+<main class="matches-page">
+
+  <section class="matches-intro">
+
+    <div class="section-label">STARTUP OPPORTUNITY</div>
+
+    <h1 id="opportunityTitle">
+      Loading opportunity...
+    </h1>
+
+    <p id="startupName"></p>
+
+  </section>
+
+
+  <section id="opportunityContainer">
+
+    <p>Loading...</p>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-logo">
+    Founder<span>Match</span>
+  </div>
+
+  <p>
+    An independent student entrepreneurship experiment.
+  </p>
+
+</footer>
+
+
+<script>
+
+const API_URL =
+  "https://foundermatch-api.amaurycalo4.workers.dev";
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const opportunityId =
+  params.get("id");
+
+const container =
+  document.getElementById("opportunityContainer");
+
+
+async function loadOpportunity() {
+
+  if (!opportunityId) {
+
+    container.innerHTML =
+      "<p>Opportunity not found.</p>";
+
+    return;
+  }
+
+
+  try {
+
+    const response = await fetch(
+      `${API_URL}/api/opportunities`
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error("Unable to load opportunity");
+    }
+
+
+    const opportunity =
+      data.opportunities.find(
+        item => Number(item.id) === Number(opportunityId)
+      );
+
+
+    if (!opportunity) {
+
+      container.innerHTML =
+        "<p>Opportunity not found.</p>";
+
+      return;
+    }
+
+
+    document.getElementById(
+      "opportunityTitle"
+    ).textContent = opportunity.title;
+
+
+    document.getElementById(
+      "startupName"
+    ).textContent = opportunity.startup_name;
+
+
+    container.innerHTML = `
+
+      <div class="match-card">
+
+        <div class="match-card-top">
+
+          <div class="section-label">
+            ${opportunity.opportunity_type}
+          </div>
+
+          <div class="match-score">
+            ${opportunity.remote || "On-site"}
+          </div>
+
+        </div>
+
+
+        <h2>${opportunity.startup_name}</h2>
+
+
+        <p>
+          ${opportunity.description}
+        </p>
+
+
+        <hr>
+
+
+        <h3>Profile wanted</h3>
+
+        <p>
+          ${opportunity.role_profile}
+        </p>
+
+
+        ${opportunity.skills ? `
+          <h3>Skills</h3>
+          <p>${opportunity.skills}</p>
+        ` : ""}
+
+
+        <h3>Practical information</h3>
+
+
+        <p>
+          <strong>Location:</strong>
+          ${opportunity.location || "Not specified"}
+        </p>
+
+
+        <p>
+          <strong>Work format:</strong>
+          ${opportunity.remote || "Not specified"}
+        </p>
+
+
+        <p>
+          <strong>Commitment:</strong>
+          ${opportunity.commitment || "Not specified"}
+        </p>
+
+
+        <p>
+          <strong>Compensation:</strong>
+          ${opportunity.compensation || "Not specified"}
+        </p>
+
+
+        <p>
+          <strong>Start date:</strong>
+          ${opportunity.start_date || "Not specified"}
+        </p>
+
+
+        <hr>
+
+
+        <h3>Interested?</h3>
+
+        <p>
+          Apply to this opportunity and introduce yourself
+          to the startup.
+        </p>
+
+
+        <button
+          class="match-button match-button-primary"
+          id="applyButton">
+          Apply →
+        </button>
+
+
+        <br><br>
+
+
+        <a
+          href="opportunities.html"
+          class="match-button match-button-secondary">
+          ← Back to opportunities
+        </a>
+
+      </div>
+
+    `;
+
+
+    document
+      .getElementById("applyButton")
+      .addEventListener("click", function() {
+
+        alert(
+          "Applications are coming next on FounderMatch."
+        );
+
+      });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      "<p>Unable to load this opportunity. Please try again.</p>";
+
+  }
+
+}
+
+
+loadOpportunity();
+
+</script>
+
+</body>
+</html>
