@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Opportunities — FounderMatch</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      Founder<span>Match</span>
+    </a>
+
+    <div>
+      <a href="matches.html">My Matches</a> ·
+      <a href="opportunities.html">Opportunities</a> ·
+      <a href="profile.html">My Profile</a> ·
+      <a href="requests.html">Requests</a> ·
+      <a href="connections.html">Connections</a>
+    </div>
+  </nav>
+</header>
+
+
+<main class="matches-page">
+
+  <section class="matches-intro">
+
+    <div class="section-label">STARTUP OPPORTUNITIES</div>
+
+    <h1>Find your next startup opportunity.</h1>
+
+    <p>
+      Join an ambitious startup project or discover internship
+      opportunities built for students.
+    </p>
+
+  </section>
+
+
+  <section class="opportunities-controls">
+
+    <button
+      class="match-button match-button-primary opportunity-filter"
+      data-filter="all">
+      All opportunities
+    </button>
+
+    <button
+      class="match-button match-button-secondary opportunity-filter"
+      data-filter="Project">
+      Startup Projects
+    </button>
+
+    <button
+      class="match-button match-button-secondary opportunity-filter"
+      data-filter="Internship">
+      Internships
+    </button>
+
+  </section>
+
+
+  <section id="opportunitiesContainer" class="matches-grid">
+
+    <p>Loading opportunities...</p>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-logo">
+    Founder<span>Match</span>
+  </div>
+
+  <p>
+    An independent student entrepreneurship experiment.
+  </p>
+
+</footer>
+
+
+<script>
+
+const API_URL =
+  "https://foundermatch-api.amaurycalo4.workers.dev";
+
+const container =
+  document.getElementById("opportunitiesContainer");
+
+let opportunities = [];
+
+
+async function loadOpportunities() {
+
+  try {
+
+    const response = await fetch(
+      `${API_URL}/api/opportunities`
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error("Unable to load opportunities");
+    }
+
+    opportunities = data.opportunities;
+
+    displayOpportunities(opportunities);
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      "<p>Unable to load opportunities. Please try again.</p>";
+
+  }
+}
+
+
+function displayOpportunities(items) {
+
+  if (!items.length) {
+
+    container.innerHTML =
+      "<p>No opportunities available yet.</p>";
+
+    return;
+  }
+
+  container.innerHTML = items.map(opportunity => {
+
+    return `
+      <div class="match-card">
+
+        <div class="match-card-top">
+
+          <div>
+            <span class="section-label">
+              ${opportunity.opportunity_type}
+            </span>
+
+            <h2>${opportunity.title}</h2>
+
+            <h3>${opportunity.startup_name}</h3>
+          </div>
+
+          <div class="match-score">
+            ${opportunity.remote || "On-site"}
+          </div>
+
+        </div>
+
+        <p>
+          ${opportunity.description}
+        </p>
+
+        <hr>
+
+        <h3>Profile wanted</h3>
+        <p>${opportunity.role_profile}</p>
+
+        ${opportunity.skills ? `
+          <h3>Skills</h3>
+          <p>${opportunity.skills}</p>
+        ` : ""}
+
+        <p>
+          <strong>Location:</strong>
+          ${opportunity.location || "Not specified"}
+        </p>
+
+        <p>
+          <strong>Commitment:</strong>
+          ${opportunity.commitment || "Not specified"}
+        </p>
+
+        <p>
+          <strong>Compensation:</strong>
+          ${opportunity.compensation || "Not specified"}
+        </p>
+
+        <button class="match-button match-button-primary">
+          View opportunity →
+        </button>
+
+      </div>
+    `;
+
+  }).join("");
+}
+
+
+document.addEventListener("click", function(event) {
+
+  const button =
+    event.target.closest(".opportunity-filter");
+
+  if (!button) return;
+
+  const filter = button.dataset.filter;
+
+  if (filter === "all") {
+    displayOpportunities(opportunities);
+    return;
+  }
+
+  const filtered = opportunities.filter(
+    opportunity =>
+      opportunity.opportunity_type === filter
+  );
+
+  displayOpportunities(filtered);
+
+});
+
+
+loadOpportunities();
+
+</script>
+
+</body>
+</html>
