@@ -198,9 +198,11 @@ function displayOpportunities(items) {
           ${opportunity.compensation || "Not specified"}
         </p>
 
-        <button class="match-button match-button-primary">
-          View opportunity →
-        </button>
+       <a
+  href="view-opportunity.html?id=${opportunity.id}"
+  class="match-button match-button-primary">
+  View opportunity →
+</a>
 
       </div>
     `;
