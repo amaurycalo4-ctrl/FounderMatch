@@ -234,15 +234,81 @@ async function loadOpportunity() {
     `;
 
 
-    document
-      .getElementById("applyButton")
-      .addEventListener("click", function() {
+   document
+  .getElementById("applyButton")
+  .addEventListener("click", async function() {
+
+    const button = this;
+
+    const applicantProfileId =
+      localStorage.getItem("foundermatch_profile_id");
+
+    if (!applicantProfileId) {
+      alert("Please create your FounderMatch profile before applying.");
+      window.location.href = "profile.html";
+      return;
+    }
+
+    const message = prompt(
+      "Introduce yourself to the startup in a few sentences:"
+    );
+
+    if (message === null) {
+      return;
+    }
+
+    try {
+
+      button.disabled = true;
+      button.textContent = "Applying...";
+
+      const response = await fetch(
+        `${API_URL}/api/applications`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            opportunity_id: Number(opportunityId),
+            applicant_profile_id: Number(applicantProfileId),
+            message: message.trim() || null
+          })
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+
+        button.textContent = "Application sent ✓";
+
+      } else if (result.already_applied) {
+
+        button.textContent = "Already applied ✓";
+
+      } else {
+
+        button.textContent = "Try again";
+        button.disabled = false;
 
         alert(
-          "Applications are coming next on FounderMatch."
+          result.error || "Unable to send your application."
         );
+      }
 
-      });
+    } catch (error) {
+
+      console.error(error);
+
+      button.textContent = "Try again";
+      button.disabled = false;
+
+      alert("Unable to send your application.");
+
+    }
+
+  });
 
 
   } catch (error) {
