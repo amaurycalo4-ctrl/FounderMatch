@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Applications — FounderMatch</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      Founder<span>Match</span>
+    </a>
+
+    <div>
+      <a href="matches.html">My Matches</a> ·
+      <a href="opportunities.html">Opportunities</a> ·
+      <a href="profile.html">My Profile</a> ·
+      <a href="requests.html">Requests</a> ·
+      <a href="connections.html">Connections</a>
+    </div>
+  </nav>
+</header>
+
+
+<main class="matches-page">
+
+  <section class="matches-intro">
+
+    <div class="section-label">
+      STARTUP RECRUITING
+    </div>
+
+    <h1>Applications to your opportunities.</h1>
+
+    <p>
+      Review students interested in joining your startup
+      projects and internship opportunities.
+    </p>
+
+  </section>
+
+
+  <section id="applicationsContainer">
+
+    <p>Loading applications...</p>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-logo">
+    Founder<span>Match</span>
+  </div>
+
+  <p>
+    An independent student entrepreneurship experiment.
+  </p>
+
+</footer>
+
+
+<script>
+
+const API_URL =
+  "https://foundermatch-api.amaurycalo4.workers.dev";
+
+const container =
+  document.getElementById("applicationsContainer");
+
+const profileId =
+  localStorage.getItem("foundermatch_profile_id");
+
+
+async function loadApplications() {
+
+  if (!profileId) {
+
+    container.innerHTML = `
+      <div class="match-card">
+        <h2>Create your FounderMatch profile first</h2>
+
+        <p>
+          You need a profile to manage applications
+          to your opportunities.
+        </p>
+
+        <a
+          href="profile.html"
+          class="match-button match-button-primary">
+          Create profile →
+        </a>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  try {
+
+    const response = await fetch(
+      `${API_URL}/api/applications?profile_id=${profileId}`
+    );
+
+    const data = await response.json();
+
+
+    if (!data.success) {
+      throw new Error(
+        data.error || "Unable to load applications"
+      );
+    }
+
+
+    if (!data.applications.length) {
+
+      container.innerHTML = `
+        <div class="match-card">
+          <h2>No applications yet</h2>
+
+          <p>
+            Applications to opportunities you publish
+            will appear here.
+          </p>
+
+          <a
+            href="post-opportunity.html"
+            class="match-button match-button-primary">
+            Post an opportunity →
+          </a>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML =
+      data.applications.map(application => {
+
+        const initial =
+          application.first_name
+            ? application.first_name
+                .charAt(0)
+                .toUpperCase()
+            : "?";
+
+
+        const avatar =
+          application.photo_url
+            ? `<img
+                 src="${application.photo_url}"
+                 alt="${application.first_name}"
+                 class="match-avatar">`
+            : `<div class="match-avatar">
+                 ${initial}
+               </div>`;
+
+
+        return `
+
+          <div class="match-card">
+
+            <div class="match-card-top">
+
+              ${avatar}
+
+              <div class="match-score">
+                ${application.status}
+              </div>
+
+            </div>
+
+
+            <h2>
+              ${application.first_name}
+            </h2>
+
+
+            <h3>
+              Applied for:
+              ${application.opportunity_title}
+            </h3>
+
+
+            <p>
+              ${application.main_profile}
+            </p>
+
+
+            <p>
+              ${application.university}
+              ·
+              ${application.city_country}
+            </p>
+
+
+            <hr>
+
+
+            <h3>Candidate message</h3>
+
+            <p>
+              ${application.message ||
+                "No message provided."}
+            </p>
+
+
+            <h3>Skills</h3>
+
+            <p>
+              ${application.strongest_skills}
+            </p>
+
+
+            <a
+              href="view-profile.html?profile_id=${application.applicant_profile_id}"
+              class="match-button match-button-secondary">
+              View profile
+            </a>
+
+            <button
+              class="match-button match-button-primary">
+              Accept
+            </button>
+
+            <button
+              class="match-button match-button-secondary">
+              Decline
+            </button>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <div class="match-card">
+        <h2>Unable to load applications</h2>
+
+        <p>
+          Please try again.
+        </p>
+      </div>
+    `;
+
+  }
+
+}
+
+
+loadApplications();
+
+</script>
+
+</body>
+</html>
