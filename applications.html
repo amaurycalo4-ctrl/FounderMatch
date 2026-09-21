@@ -225,15 +225,19 @@ async function loadApplications() {
               View profile
             </a>
 
-            <button
-              class="match-button match-button-primary">
-              Accept
-            </button>
+           <button
+  class="match-button match-button-primary application-status-button"
+  data-application-id="${application.application_id}"
+  data-status="accepted">
+  Accept
+</button>
 
-            <button
-              class="match-button match-button-secondary">
-              Decline
-            </button>
+<button
+  class="match-button match-button-secondary application-status-button"
+  data-application-id="${application.application_id}"
+  data-status="declined">
+  Decline
+</button>
 
           </div>
 
@@ -260,7 +264,48 @@ async function loadApplications() {
 
 }
 
+async function updateApplicationStatus(applicationId, status, button) {
+  try {
+    button.disabled = true;
+    button.textContent = status === "accepted" ? "Accepting..." : "Declining...";
 
+    const response = await fetch(`${API_URL}/api/applications/status`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        application_id: Number(applicationId),
+        status: status
+      })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error(data.error || "Unable to update application");
+    }
+
+    await loadApplications();
+
+  } catch (error) {
+    console.error(error);
+    button.disabled = false;
+    button.textContent = status === "accepted" ? "Accept" : "Decline";
+    alert("Unable to update the application.");
+  }
+}
+
+document.addEventListener("click", function (event) {
+  const button = event.target.closest(".application-status-button");
+
+  if (!button) return;
+
+  const applicationId = button.dataset.applicationId;
+  const status = button.dataset.status;
+
+  updateApplicationStatus(applicationId, status, button);
+});
 loadApplications();
 
 </script>
