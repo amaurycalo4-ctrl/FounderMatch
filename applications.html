@@ -75,7 +75,8 @@ const API_URL =
 const container =
   document.getElementById("applicationsContainer");
 
-const profileId = "1";
+const profileId =
+  localStorage.getItem("foundermatch_profile_id");
 
 async function loadApplications() {
 
