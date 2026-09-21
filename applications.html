@@ -225,19 +225,21 @@ async function loadApplications() {
               View profile
             </a>
 
-           <button
-  class="match-button match-button-primary application-status-button"
-  data-application-id="${application.application_id}"
-  data-status="accepted">
-  Accept
-</button>
+  ${application.status === "pending" ? `
+  <button
+    class="match-button match-button-primary application-status-button"
+    data-application-id="${application.application_id}"
+    data-status="accepted">
+    Accept
+  </button>
 
-<button
-  class="match-button match-button-secondary application-status-button"
-  data-application-id="${application.application_id}"
-  data-status="declined">
-  Decline
-</button>
+  <button
+    class="match-button match-button-secondary application-status-button"
+    data-application-id="${application.application_id}"
+    data-status="declined">
+    Decline
+  </button>
+` : ""}
 
           </div>
 
