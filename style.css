@@ -541,6 +541,7 @@ footer p {
 .form-content input[type="text"],
 .form-content input[type="email"],
 .form-content input[type="password"],
+.form-content input[type="url"],
 .form-content select,
 .form-content textarea {
 
